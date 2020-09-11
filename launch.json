@@ -8,12 +8,11 @@
             "type": "ahkdbg",
             "request": "launch",
             "name": "AHKDebug",
-            "program": "${workspaceRoot}/ahk/${fileBasename}",
+            "program": "${workspaceRoot}/${fileBasename}",
             "stopOnEntry": true,
             "captureStreams": true,
             "AhkExecutable": "C:\\\\Program Files\\\\AutoHotkey\\\\AutoHotkey.exe",
-            "port": 9005,
-            "cwd": "${fileDirname}"
+            "port": 9005
         }
     ]
 }
