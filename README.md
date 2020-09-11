@@ -38,3 +38,5 @@ window snapping possibilities.
 ## Other automatino tools
 
 [AutoHotkey](https://www.autohotkey.com/)
+
+[AutoHotkey Desktops in Windows 10](https://www.computerhope.com/tips/tip224.htm)
