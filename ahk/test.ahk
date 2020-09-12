@@ -1,3 +1,3 @@
 ^j::
-Send, My First Script
+send, My First Script
 return
