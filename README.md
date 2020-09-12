@@ -29,6 +29,8 @@ window snapping possibilities.
 
 ## Possible python libraries
 
+[Qtile](http://www.qtile.org/)
+
 [Python-UIAutomation-for-Windows](https://github.com/yinkaisheng/Python-UIAutomation-for-Windows)
 
 [pywinauto](https://github.com/pywinauto/pywinauto)
