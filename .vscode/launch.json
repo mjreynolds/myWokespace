@@ -5,22 +5,25 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "AutoHotkey Debug",
+            "request": "launch",
+            "type": "autohotkey",
+            "runtime_v1": "AutoHotkey.exe",
+            "runtime_v2": "V2/AutoHotkeyU64.exe",
+            "program": "${file}",
+            "args": [],
+            "stopOnEntry": false,
+            "useAdvancedBreakpoint": false,
+            "useAdvancedOutput": false,
+            "maxChildren": 10000
+        },
+        {
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
             "cwd": "${fileDirname}"
-        },
-        {
-            "type": "ahkdbg",
-            "request": "launch",
-            "name": "AHKDebug",
-            "program": "${workspaceRoot}/ahk/${fileBasename}",
-            "stopOnEntry": true,
-            "captureStreams": true,
-            "AhkExecutable": "C:\\\\Program Files\\\\AutoHotkey\\\\AutoHotkey.exe",
-            "port": 9005
         }
     ]
 }
