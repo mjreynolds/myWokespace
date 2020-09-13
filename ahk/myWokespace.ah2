@@ -36,12 +36,12 @@ mapDesktopsFromRegistry() {
     while (CurrentDesktopId and i < DesktopCount) {
         StartPos := (i * IdLength) + 1
         DesktopIter := SubStr(DesktopList, StartPos, IdLength)
-        OutputDebug Format("The iterator is pointing at {1} and count is {2}.", [DesktopIter, i])
+        ; OutputDebug Format("The iterator is pointing at {1} and count is {2}.`n", [DesktopIter, i]*)
         ; Break out if we find a match in the list. If we didn't find anything, keep the
         ; old guess and pray we're still correct :-D.
         if (DesktopIter = CurrentDesktopId) {
             CurrentDesktop := i + 1
-            OutputDebug Format("Current desktop number is {1} with an ID of {2}.", [CurrentDesktop, DesktopIter])
+            ; OutputDebug Format("Current desktop number is {1} with an ID of {2}.`n", [CurrentDesktop, DesktopIter]*)
             break
         }
         i++
@@ -55,7 +55,7 @@ getSessionId() {
         OutputDebug "Error getting current process id: " . A_LastError
         return
     }
-    OutputDebug "Current Process Id: " . ProcessId
+    ; OutputDebug "Current Process Id: " . ProcessId
     try {
         SessionId := 0
         SessionId := DllCall("ProcessIdToSessionId", "UInt", ProcessId, "UInt*", SessionId)
@@ -66,7 +66,7 @@ getSessionId() {
         OutputDebug "Error getting session id: " . A_LastError
         return
     }
-    OutputDebug "Current Session Id: " . SessionId
+    ; OutputDebug "Current Session Id: " . SessionId
     return SessionId
 }
 
@@ -77,8 +77,12 @@ listWindows() {
         ;id := windows%A_Index%
         win_title := WinGetTitle(win_id)
         win_path := WinGetProcessPath(win_id)
+        WinGetClientPos X, Y, W, H, win_id
+        win_class := WinGetClass(win_id)
         OutputDebug Format("Title: {1}`n", win_title)
         OutputDebug Format("Path: {1}`n", win_path)
+        OutputDebug Format("Class: {1}`n", win_class)
+        OutputDebug Format("X: {1}, Y: {2}, Width: {3}, Height: {4}`n", [X, Y, W, H]*)
     }
 }
 
@@ -92,7 +96,7 @@ switchDesktopByNumber(targetDesktop) {
     
     ; Don't attempt to switch to an invalid desktop
     if (targetDesktop > DesktopCount || targetDesktop < 1) {
-        OutputDebug Format("[invalid] target: {1} current: {2}", [targetDesktop, CurrentDesktop])
+        OutputDebug Format("[invalid] target: {1} current: {2}", [targetDesktop, CurrentDesktop]*)
         return
     }
 
@@ -100,14 +104,14 @@ switchDesktopByNumber(targetDesktop) {
     while(CurrentDesktop < targetDesktop) {
         Send "^#{Right}"
         CurrentDesktop++
-        OutputDebug Format("[right] target: {1} current: {2}", [targetDesktop, CurrentDesktop])
+        ; OutputDebug Format("[right] target: {1} current: {2}", [targetDesktop, CurrentDesktop]*)
     }
 
     ; Go left until we reach the desktop we want
     while(CurrentDesktop > targetDesktop) {
         Send "^#{Left}"
         CurrentDesktop--
-        OutputDebug Format("[left] target: {1} current: {2}", [targetDesktop, CurrentDesktop])
+        ; OutputDebug Format("[left] target: {1} current: {2}", [targetDesktop, CurrentDesktop]*)
     }
 }
 
@@ -119,8 +123,55 @@ mapDesktopsFromRegistry()
 i := 1
 while (i <= DesktopCount) {
     switchDesktopByNumber(i)
+    OutputDebug Format("===Desktop {2} of {1}===`n", [DesktopCount, i]*)
     listWindows()
-    OutputDebug i
-    ;OutputDebug "[loading] desktops: ".DesktopCount." current: ".CurrentDesktop
     i++
 }
+
+/*
+Title: MnIT Outlook
+Path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+Class: Chrome_WidgetWin_1
+X: -1514, Y: 0, Width: 1513, Height: 1039
+Target: "C:\Program Files (x86)\Google\Chrome\Application\chrome_proxy.exe"  --profile-directory=Default --app-id=aaigkeeeimecfcbccjnkpiflcofcamel
+Start In: "C:\Program Files (x86)\Google\Chrome\Application"
+
+Title: myWokespace.ah2 - myWokespace - Visual Studio Code
+Path: C:\Users\mikro\AppData\Local\Programs\Microsoft VS Code\Code.exe
+Class: Chrome_WidgetWin_1
+X: -1, Y: -1, Width: 1922, Height: 1042
+
+Title: Chat | Microsoft Teams
+Path: C:\Users\mikro\AppData\Local\Microsoft\Teams\current\Teams.exe
+Class: Chrome_WidgetWin_1
+X: 1920, Y: 0, Width: 1280, Height: 1040
+
+Title: Skype for Business 
+Path: C:\Program Files\Microsoft Office\Office16\lync.exe
+Class: CommunicatorMainWindowClass
+X: -1919, Y: 1, Width: 400, Height: 1038
+
+Title: OutputDebug - Syntax & Usage | AutoHotkey and 5 more pages - Personal 2 - Microsoft​ Edge
+Path: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+Class: Chrome_WidgetWin_1
+X: -31992, Y: -32000, Width: 144, Height: 20
+Target: "C:\Program Files (x86)\Microsoft\Edge Dev\Application\msedge.exe" --profile-directory="Profile 2" [or Profile 1 or Default]
+
+Title: Discord
+Path: C:\Users\mikro\AppData\Local\Discord\app-0.0.308\Discord.exe
+Class: Chrome_WidgetWin_1
+X: 2560, Y: 0, Width: 1280, Height: 1040
+
+X: 2560, Y: 0, Width: 1280, Height: 1040
+Title: Inbox - Gmail ‎- Mail
+Path: C:\Windows\System32\ApplicationFrameHost.exe
+Class: ApplicationFrameWindow
+X: -1920, Y: -8, Width: 1920, Height: 1048
+Target: "C:\Windows\explorer.exe" "shell:AppsFolder\microsoft.windowscommunicationsapps_8wekyb3d8bbwe!microsoft.windowslive.mail"
+
+Title: Cherry Glazerr - Wasted Nun - YouTube
+Path: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+Class: Chrome_WidgetWin_1
+X: 1921, Y: 0, Width: 958, Height: 512
+Target: ?
+*/
